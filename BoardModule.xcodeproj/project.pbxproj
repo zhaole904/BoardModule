@@ -17,6 +17,8 @@
 		464057CF20D28E20009240FC /* OABoardBranchInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057CE20D28E20009240FC /* OABoardBranchInfoManager.swift */; };
 		464057D220D28E3C009240FC /* DefineTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D120D28E3C009240FC /* DefineTool.swift */; };
 		464057D520D29014009240FC /* BoardUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 464057D420D29014009240FC /* BoardUI.bundle */; };
+		464057D720D2A966009240FC /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D620D2A966009240FC /* BoardModel.swift */; };
+		464057D920D2A978009240FC /* BoardInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D820D2A978009240FC /* BoardInfoModel.swift */; };
 		A3D06DC46FE8B678E134ACDA /* Pods_BoardModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051978ED39765F771C04BC1F /* Pods_BoardModule.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +38,8 @@
 		464057CE20D28E20009240FC /* OABoardBranchInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OABoardBranchInfoManager.swift; sourceTree = "<group>"; };
 		464057D120D28E3C009240FC /* DefineTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefineTool.swift; sourceTree = "<group>"; };
 		464057D420D29014009240FC /* BoardUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BoardUI.bundle; sourceTree = "<group>"; };
+		464057D620D2A966009240FC /* BoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardModel.swift; sourceTree = "<group>"; };
+		464057D820D2A978009240FC /* BoardInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfoModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				464057CE20D28E20009240FC /* OABoardBranchInfoManager.swift */,
+				464057D620D2A966009240FC /* BoardModel.swift */,
+				464057D820D2A978009240FC /* BoardInfoModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -268,8 +274,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				464057D220D28E3C009240FC /* DefineTool.swift in Sources */,
+				464057D720D2A966009240FC /* BoardModel.swift in Sources */,
 				4629440A20D1519A0098D1F9 /* RequestTool.swift in Sources */,
 				462943F020D151610098D1F9 /* AppDelegate.swift in Sources */,
+				464057D920D2A978009240FC /* BoardInfoModel.swift in Sources */,
 				4629440720D151970098D1F9 /* ViewController.swift in Sources */,
 				4629440620D151970098D1F9 /* OABoardViewController.swift in Sources */,
 				464057CF20D28E20009240FC /* OABoardBranchInfoManager.swift in Sources */,

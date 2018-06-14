@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         let promptController = UIAlertController(title: "Username", message: nil, preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
             if (usernameTextField?.text)! == "" || (passwordTextField?.text)! == "" {
-                self.loginRequestData(name: "zhangs", password: "Rhl@201805")
+                self.loginRequestData(name: "lil002", password: "Abcd1234")
             } else {
                 self.loginRequestData(name: (usernameTextField?.text)!, password: (passwordTextField?.text)!)
             }
@@ -43,20 +43,6 @@ class ViewController: UIViewController {
         
     }
     
-    @objc func stopBtnClick(sender: UIButton) {
-        
-        RequestTool.sharedInstance.loginRequestData(user: "lil002", password: "Abcd1234", deviceId: "lil002") { (resultData) in
-            if (resultData.result)! {
-                print("respones=\(String(describing: RequestTool.sharedInstance))")
-                
-                self.getUserLimitBranchData(key: "userLimitBranch")
-                
-            } else {
-                print("message=\(String(describing: resultData.message))")
-            }
-        }
-    }
-    
     func getUserLimitBranchData(key: String) -> () {
         RequestTool.sharedInstance.getInsuranceperformanceDataWithKey(key: key, params: ["brancePara":"-1"], completion: { (resultData) in
             if (resultData.result)! {
@@ -71,7 +57,7 @@ class ViewController: UIViewController {
         RequestTool.sharedInstance.loginRequestData(user: name, password: password, deviceId: "") { (resultData) in
             if (resultData.result)! {
                 print("respones=\(String(describing: resultData.data))")
-                
+                self.navigationController?.pushViewController(OABoardViewController(), animated: true)
                 //                self.getUserLimitBranchData(key: "userLimitBranch")
                 
             } else {

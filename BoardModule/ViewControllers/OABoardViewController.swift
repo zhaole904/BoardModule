@@ -158,11 +158,11 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 titleLab?.text =  OABoardBranchInfoManager.sharedBranchInfoManager.productMixBranchDic["branchName"] as? String
             }
             
-            //            if (titleLab?.text)! == "" || OABoardBranchInfoManager.sharedBranchInfoManager.isGborProduct {
-            titleLab?.text = "sdasd"
-            //                    OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchName"] as? String
+                        if (titleLab?.text)! == "" || OABoardBranchInfoManager.sharedBranchInfoManager.isGborProduct {
+//            titleLab?.text = "sdasd"
+                                OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchName"] as? String
             
-            //            }
+                        }
             
             self.navigationItem.titleView = titleLab
             self.loadPageData()
@@ -181,7 +181,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
             bottomRightView = self.creatBtnViewWithImageName(imageName: "BoardUI.bundle/productMix", title: "产品结构", x: SCREEN_W/2.0, y: SCREEN_H-safeNavH-50-safeBottomH, w: SCREEN_W/2.0, h: 50)
             self.view.addSubview(bottomRightView!)
             
-//            self.loadUserLimitBranchData()
+            self.loadUserLimitBranchData()
         }
     }
     
@@ -279,7 +279,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
                     if resultData.result! {
                         if KgetResultFlag(data: resultData.data as! NSDictionary) {
-                            self.dataArr.removeAllObjects()
+                            self.dataArr?.removeAllObjects()
         
                             let dataDic = KgetResultParam(data: resultData.data!, key: key)
                             if dataDic.allKeys.count == 0 || dataDic["body"] == nil {
@@ -287,6 +287,8 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         self.tableView?.reloadData()
         self.scrollView?.mj_header.endRefreshing()
         return
+                            } else {
+                                self.loadPageData()
                             }
         
         
@@ -313,7 +315,8 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         isRequestSuccess = false
         if (childVCnum == 0) {
-            branchCode = OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchCode"] as? String
+            branchCode = "86"
+//            branchCode = OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchCode"] as? String
         } else if (childVCnum == childVCType.gbRank.rawValue) {
             branchCode = OABoardBranchInfoManager.sharedBranchInfoManager.gbRankBranchDic["branchCode"] as? String
         } else if (childVCnum == childVCType.productMix.rawValue) {
@@ -326,19 +329,19 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         let branchName = OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchName"] as? String
         
-        if (branchCode == "" || branchName == "") {
-            
-            self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1", userLimit: false)
-            
-            self.tableView?.reloadData()
-            self.scrollView?.mj_header.endRefreshing()
-            return;
-        }
+//        if (branchCode == "" || branchName == "") {
+//
+//            self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1", userLimit: false)
+//
+//            self.tableView?.reloadData()
+//            self.scrollView?.mj_header.endRefreshing()
+//            return;
+//        }
      
         //  01 - 传统 40 - 招证 41 - 经代 A - 个险
         deptTypeParams = ["A","01","40","41"];
         
-        var key = self.isDetail! ? "getBranchDetailData" : "getBranchSumData";
+        var key = self.isDetail == true ? "getBranchDetailData" : "getBranchSumData";
         if (self.childVCnum == childVCType.gbRank.rawValue) {
             key = "scaleRank";
         } else if (self.childVCnum == childVCType.productMix.rawValue) {
@@ -352,7 +355,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         RequestTool.sharedInstance.getInsuranceperformanceDataWithKey(key: key, params: params as NSDictionary) { (resultData: HttpResultModel) in
             if resultData.result! {
                 if KgetResultFlag(data: resultData.data as! NSDictionary) {
-                    self.dataArr.removeAllObjects()
+                    self.dataArr?.removeAllObjects()
                     
                     let dataDic = KgetResultParam(data: resultData.data!, key: key)
                     let bodyArr = dataDic["body"] as! [[String: AnyObject]]
@@ -366,19 +369,17 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
                     
                     let code: String = dataDic["code"] as! String
                     if (code == "Y") {
-                        
-//                        self.dataArr =
-//
-//                            [iReportModel arrayOfModelsFromDictionaries:dataDic[@"body"] error:nil];
-//
-//                        let bodyDic = dataDic[@"body"][0]
-//                        let unit: String = (childVCnum > 0) ? "单位:万元" : ""
-//                        self.timeLab.text = String(format: "数据为%@渠道 更新时间为", self.channelArr[self.btnTag], bodyDic["updatedDate"])
-//                        self.unitLab.text = unit
-//
-//                        self.isRequestSuccess = true
-//                        hud?.hide(animated: true)
-//                        hud = nil;
+                        // ------------ //
+                        self.dataArr = BoardModel.listToModel(list: bodyArr) as! NSMutableArray
+                       // ------------ //
+                        let bodyDic = bodyArr[0]
+                        let unit: String = (self.childVCnum > 0) ? "单位:万元" : ""
+                        self.timeLab?.text = String(format: "数据为%@渠道 更新时间为%@", self.channelArr![self.btnTag!] as! String, bodyDic["updatedDate"] as! String)
+                        self.unitLab?.text = unit
+
+                        self.isRequestSuccess = true
+                        self.hud?.hide(animated: true)
+                        self.hud = nil;
                     } else {  //code=N
                         self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1", userLimit: true)
                     }
