@@ -14,6 +14,9 @@
 		4629440620D151970098D1F9 /* OABoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4629440420D151970098D1F9 /* OABoardViewController.swift */; };
 		4629440720D151970098D1F9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4629440520D151970098D1F9 /* ViewController.swift */; };
 		4629440A20D1519A0098D1F9 /* RequestTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4629440920D1519A0098D1F9 /* RequestTool.swift */; };
+		464057CF20D28E20009240FC /* OABoardBranchInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057CE20D28E20009240FC /* OABoardBranchInfoManager.swift */; };
+		464057D220D28E3C009240FC /* DefineTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D120D28E3C009240FC /* DefineTool.swift */; };
+		464057D520D29014009240FC /* BoardUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 464057D420D29014009240FC /* BoardUI.bundle */; };
 		A3D06DC46FE8B678E134ACDA /* Pods_BoardModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051978ED39765F771C04BC1F /* Pods_BoardModule.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +33,9 @@
 		4629440420D151970098D1F9 /* OABoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OABoardViewController.swift; sourceTree = "<group>"; };
 		4629440520D151970098D1F9 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4629440920D1519A0098D1F9 /* RequestTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTool.swift; sourceTree = "<group>"; };
+		464057CE20D28E20009240FC /* OABoardBranchInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OABoardBranchInfoManager.swift; sourceTree = "<group>"; };
+		464057D120D28E3C009240FC /* DefineTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefineTool.swift; sourceTree = "<group>"; };
+		464057D420D29014009240FC /* BoardUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BoardUI.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,10 +79,11 @@
 		462943EE20D151610098D1F9 /* BoardModule */ = {
 			isa = PBXGroup;
 			children = (
+				464057D320D29014009240FC /* UIResources */,
+				464057D020D28E30009240FC /* Views */,
+				464057CD20D28E20009240FC /* Models */,
 				4629440820D1519A0098D1F9 /* Tools */,
 				4629440320D151970098D1F9 /* ViewControllers */,
-				4629440220D151910098D1F9 /* Views */,
-				4629440120D1518A0098D1F9 /* Models */,
 				462943EF20D151610098D1F9 /* AppDelegate.swift */,
 				462943F320D151610098D1F9 /* Main.storyboard */,
 				462943F620D151610098D1F9 /* Assets.xcassets */,
@@ -84,20 +91,6 @@
 				462943FB20D151610098D1F9 /* Info.plist */,
 			);
 			path = BoardModule;
-			sourceTree = "<group>";
-		};
-		4629440120D1518A0098D1F9 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		4629440220D151910098D1F9 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		4629440320D151970098D1F9 /* ViewControllers */ = {
@@ -113,8 +106,32 @@
 			isa = PBXGroup;
 			children = (
 				4629440920D1519A0098D1F9 /* RequestTool.swift */,
+				464057D120D28E3C009240FC /* DefineTool.swift */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		464057CD20D28E20009240FC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				464057CE20D28E20009240FC /* OABoardBranchInfoManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		464057D020D28E30009240FC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		464057D320D29014009240FC /* UIResources */ = {
+			isa = PBXGroup;
+			children = (
+				464057D420D29014009240FC /* BoardUI.bundle */,
+			);
+			path = UIResources;
 			sourceTree = "<group>";
 		};
 		B4137065F83128771A1BD615 /* Pods */ = {
@@ -187,6 +204,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				464057D520D29014009240FC /* BoardUI.bundle in Resources */,
 				462943FA20D151610098D1F9 /* LaunchScreen.storyboard in Resources */,
 				462943F720D151610098D1F9 /* Assets.xcassets in Resources */,
 				462943F520D151610098D1F9 /* Main.storyboard in Resources */,
@@ -223,12 +241,18 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-BoardModule/Pods-BoardModule-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -243,10 +267,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				464057D220D28E3C009240FC /* DefineTool.swift in Sources */,
 				4629440A20D1519A0098D1F9 /* RequestTool.swift in Sources */,
 				462943F020D151610098D1F9 /* AppDelegate.swift in Sources */,
 				4629440720D151970098D1F9 /* ViewController.swift in Sources */,
 				4629440620D151970098D1F9 /* OABoardViewController.swift in Sources */,
+				464057CF20D28E20009240FC /* OABoardBranchInfoManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

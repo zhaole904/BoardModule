@@ -15,23 +15,23 @@ enum RequestMethod {
 }
 
 class RequestTool: NSObject {
-
+    
     var baseUrl:String = "https://gw.cmrh.com"
     var baseParams:NSMutableDictionary = [:]
-   
+    
     // 单列
     static let sharedInstance = RequestTool()
     
     // 单列
-//    static let tools: RequestTool = {
-//        let tool = RequestTool()
-//        tool.baseUrl = "https://gw.cmrh.com"
-//        return tool
-//    }()
-//
-//    class func sharedInstance() -> RequestTool {
-//        return tools
-//    }
+    //    static let tools: RequestTool = {
+    //        let tool = RequestTool()
+    //        tool.baseUrl = "https://gw.cmrh.com"
+    //        return tool
+    //    }()
+    //
+    //    class func sharedInstance() -> RequestTool {
+    //        return tools
+    //    }
     
     //MARK:获取请求方式
     func getHttpMethod(method:RequestMethod) -> HTTPMethod {
@@ -55,24 +55,24 @@ class RequestTool: NSObject {
     }
     
     func POST(url:String,params:[String: Any],completion:@escaping (HttpResultModel)->()) -> Void {
-    print("params==\(params)")
-
-        Alamofire.request(url, method:.post, parameters: params, encoding: JSONEncoding.default) .responseJSON { response in
+        print("params==\(params)")
         
-            let dataDic = response.result.value as! [String : Any]
-
+        Alamofire.request(url, method:.post, parameters: params, encoding: JSONEncoding.default) .responseJSON { response in
+            
+            let dataDic = response.result.value as! [String : AnyObject]
+            
             switch(response.result) {
             case .success(_):
                 
-                let httpResult: HttpResultModel =  self.requrstSuccessWithResponse(httpResponse:response.response!, responseObject: dataDic)
+                let httpResult: HttpResultModel =  self.requrstSuccessWithResponse(httpResponse:response.response!, responseObject: dataDic as AnyObject)
                 
                 if httpResult.result == true {
-//                    print("Success==\(String(describing: httpResult.data))---\(String(describing: httpResult.statusCode))")
+                    //                    print("Success==\(String(describing: httpResult.data))---\(String(describing: httpResult.statusCode))")
                 } else {
                     print("Failure==\(String(describing: httpResult.data))---\(String(describing: httpResult.statusCode))")
                 }
                 completion(httpResult)
-
+                
             case .failure(_):
                 let httpResult = HttpResultModel.init()
                 httpResult.response = response.response!;
@@ -86,7 +86,7 @@ class RequestTool: NSObject {
         }
     }
     
-    func requrstSuccessWithResponse(httpResponse: HTTPURLResponse, responseObject: Any) -> HttpResultModel {
+    func requrstSuccessWithResponse(httpResponse: HTTPURLResponse, responseObject: AnyObject) -> HttpResultModel {
         let httpResult = HttpResultModel.init()
         httpResult.response = httpResponse
         
@@ -141,5 +141,6 @@ class HttpResultModel: NSObject {
     var result: Bool?
     var statusCode: NSInteger?
     var message: String?
-    var data: Any?
+    var data: AnyObject?
 }
+

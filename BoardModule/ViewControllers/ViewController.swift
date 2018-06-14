@@ -9,30 +9,26 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.view.backgroundColor = UIColor.orange;
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
-        
-        self.navigationController?.pushViewController(OABoardViewController(), animated: true)
-        return
-        
         var usernameTextField: UITextField?
-        var passwordTextField: UITextField?       
+        var passwordTextField: UITextField?
         
         let promptController = UIAlertController(title: "Username", message: nil, preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
             if (usernameTextField?.text)! == "" || (passwordTextField?.text)! == "" {
-                self.loginRequestData(name: "lil002", password: "Abcd1234")
+                self.loginRequestData(name: "zhangs", password: "Rhl@201805")
             } else {
                 self.loginRequestData(name: (usernameTextField?.text)!, password: (passwordTextField?.text)!)
             }
             
-
+            
         })
         _ = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
         }
@@ -44,7 +40,21 @@ class ViewController: UIViewController {
             passwordTextField = textField
         }
         self.present(promptController, animated: true, completion: nil)
-
+        
+    }
+    
+    @objc func stopBtnClick(sender: UIButton) {
+        
+        RequestTool.sharedInstance.loginRequestData(user: "lil002", password: "Abcd1234", deviceId: "lil002") { (resultData) in
+            if (resultData.result)! {
+                print("respones=\(String(describing: RequestTool.sharedInstance))")
+                
+                self.getUserLimitBranchData(key: "userLimitBranch")
+                
+            } else {
+                print("message=\(String(describing: resultData.message))")
+            }
+        }
     }
     
     func getUserLimitBranchData(key: String) -> () {
@@ -61,8 +71,8 @@ class ViewController: UIViewController {
         RequestTool.sharedInstance.loginRequestData(user: name, password: password, deviceId: "") { (resultData) in
             if (resultData.result)! {
                 print("respones=\(String(describing: resultData.data))")
-                self.navigationController?.pushViewController(OABoardViewController(), animated: true)
-//                self.getUserLimitBranchData(key: "userLimitBranch")
+                
+                //                self.getUserLimitBranchData(key: "userLimitBranch")
                 
             } else {
                 print("message=\(String(describing: resultData.message))")
@@ -74,7 +84,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+    
 }
 

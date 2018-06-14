@@ -7,6 +7,7 @@ target 'BoardModule' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'Kingfisher'
-
-
+  pod 'MJRefresh'
+  pod 'MJExtension'
+  pod 'MBProgressHUD'
 end
