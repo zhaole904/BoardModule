@@ -19,6 +19,10 @@
 		464057D520D29014009240FC /* BoardUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 464057D420D29014009240FC /* BoardUI.bundle */; };
 		464057D720D2A966009240FC /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D620D2A966009240FC /* BoardModel.swift */; };
 		464057D920D2A978009240FC /* BoardInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D820D2A978009240FC /* BoardInfoModel.swift */; };
+		940279A320D3BC7000578F08 /* BoardGBRankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940279A220D3BC7000578F08 /* BoardGBRankViewController.swift */; };
+		940279A520D3BC7E00578F08 /* BoardProductMixViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940279A420D3BC7E00578F08 /* BoardProductMixViewController.swift */; };
+		9442B58920D365BA006DA2A3 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9442B58820D365BA006DA2A3 /* BoardTableViewCell.swift */; };
+		9442B58B20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9442B58A20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift */; };
 		A3D06DC46FE8B678E134ACDA /* Pods_BoardModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051978ED39765F771C04BC1F /* Pods_BoardModule.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +44,10 @@
 		464057D420D29014009240FC /* BoardUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BoardUI.bundle; sourceTree = "<group>"; };
 		464057D620D2A966009240FC /* BoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardModel.swift; sourceTree = "<group>"; };
 		464057D820D2A978009240FC /* BoardInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfoModel.swift; sourceTree = "<group>"; };
+		940279A220D3BC7000578F08 /* BoardGBRankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGBRankViewController.swift; sourceTree = "<group>"; };
+		940279A420D3BC7E00578F08 /* BoardProductMixViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardProductMixViewController.swift; sourceTree = "<group>"; };
+		9442B58820D365BA006DA2A3 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
+		9442B58A20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSwitchOrganViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +91,8 @@
 		462943EE20D151610098D1F9 /* BoardModule */ = {
 			isa = PBXGroup;
 			children = (
+				9442B58720D365A6006DA2A3 /* Views */,
 				464057D320D29014009240FC /* UIResources */,
-				464057D020D28E30009240FC /* Views */,
 				464057CD20D28E20009240FC /* Models */,
 				4629440820D1519A0098D1F9 /* Tools */,
 				4629440320D151970098D1F9 /* ViewControllers */,
@@ -101,6 +109,9 @@
 			isa = PBXGroup;
 			children = (
 				4629440420D151970098D1F9 /* OABoardViewController.swift */,
+				940279A220D3BC7000578F08 /* BoardGBRankViewController.swift */,
+				940279A420D3BC7E00578F08 /* BoardProductMixViewController.swift */,
+				9442B58A20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift */,
 				4629440520D151970098D1F9 /* ViewController.swift */,
 			);
 			path = ViewControllers;
@@ -125,19 +136,20 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		464057D020D28E30009240FC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		464057D320D29014009240FC /* UIResources */ = {
 			isa = PBXGroup;
 			children = (
 				464057D420D29014009240FC /* BoardUI.bundle */,
 			);
 			path = UIResources;
+			sourceTree = "<group>";
+		};
+		9442B58720D365A6006DA2A3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9442B58820D365BA006DA2A3 /* BoardTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		B4137065F83128771A1BD615 /* Pods */ = {
@@ -277,10 +289,14 @@
 				464057D720D2A966009240FC /* BoardModel.swift in Sources */,
 				4629440A20D1519A0098D1F9 /* RequestTool.swift in Sources */,
 				462943F020D151610098D1F9 /* AppDelegate.swift in Sources */,
+				9442B58920D365BA006DA2A3 /* BoardTableViewCell.swift in Sources */,
 				464057D920D2A978009240FC /* BoardInfoModel.swift in Sources */,
 				4629440720D151970098D1F9 /* ViewController.swift in Sources */,
+				940279A320D3BC7000578F08 /* BoardGBRankViewController.swift in Sources */,
+				940279A520D3BC7E00578F08 /* BoardProductMixViewController.swift in Sources */,
 				4629440620D151970098D1F9 /* OABoardViewController.swift in Sources */,
 				464057CF20D28E20009240FC /* OABoardBranchInfoManager.swift in Sources */,
+				9442B58B20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +436,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CP4MD8V3GT;
+				DEVELOPMENT_TEAM = DZY63VG7NR;
 				INFOPLIST_FILE = BoardModule/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -439,7 +455,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CP4MD8V3GT;
+				DEVELOPMENT_TEAM = DZY63VG7NR;
 				INFOPLIST_FILE = BoardModule/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

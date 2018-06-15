@@ -14,8 +14,17 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.view.backgroundColor = UIColor.orange;
+//        var ll:String = ""
+//        self.setDataToRowViewWith(title: "", content: &ll, unit: "")
     }
     
+    func setDataToRowViewWith(title: String, content: inout String, unit:String) -> () {
+        
+        if (content == unit || content.count == 0) {
+            content = "0";
+        }
+        print(content)
+    }
     override func viewDidAppear(_ animated: Bool) {
         var usernameTextField: UITextField?
         var passwordTextField: UITextField?

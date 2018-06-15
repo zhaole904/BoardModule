@@ -10,6 +10,8 @@ import UIKit
 
 let SCREEN_W = UIScreen.main.bounds.width
 let SCREEN_H = UIScreen.main.bounds.height
+let safeBottomH: CGFloat = (SCREEN_H == 812.0 ? 34.0 : 0.0)
+let safeNavH: CGFloat  = (SCREEN_H == 812.0 ? 88.0 : 64.0)
 let ADAPTATION_WITH_WIDTH = SCREEN_W/375
 
 
@@ -94,6 +96,12 @@ extension UIView {
         titleLab.font = UIFont.systemFont(ofSize: 14*ADAPTATION_WITH_WIDTH)
         titleLab.textAlignment = .center;
         failureView.addSubview(titleLab)
+    }
+    
+    func setOA_width(oa_width: CGFloat) -> () {
+        var frame = self.frame
+        frame.size.width = oa_width
+        self.frame = frame
     }
     
 }

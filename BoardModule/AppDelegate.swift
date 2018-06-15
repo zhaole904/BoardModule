@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.white
         let nvc = UINavigationController(rootViewController: ViewController())
+        nvc.navigationBar.backgroundColor = UIColor.red
         window?.rootViewController = nvc
         window?.makeKeyAndVisible()
         return true
