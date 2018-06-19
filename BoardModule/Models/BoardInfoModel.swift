@@ -8,11 +8,28 @@
 
 import UIKit
 
+@objcMembers
 class BoardBranchsoModel: NSObject {
     var branchName: String = ""
     var branchCode: String = ""
+    
+    //MARK:- KVC
+    init(dict: [String: Any]) {
+        super.init()
+        setValuesForKeys(dict)
+    }
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        super.setValue(value, forKey: key)
+    }
+    
+    override func setValue(_ value: Any?, forUndefinedKey key: String) {
+        print("----soModel--forUndefinedKey---\(key)值为空")
+    }
+    
 }
 
+@objcMembers
 class BoardInfoModel: NSObject {
     var branchLevel: String = ""
     var branchs: [BoardBranchsoModel] = []
@@ -25,18 +42,23 @@ class BoardInfoModel: NSObject {
     //MARK:- KVC
     init(dict: [String: Any]) {
         super.init()
-        setValuesForKeys(dict)
+//        setValuesForKeys(dict)
+       
+        self.branchLevel = dict["branchLevel"] as! String
+        if let list = dict["branchs"] as? [[String : Any]] {
+            for obj in list {
+                let soModel = (BoardBranchsoModel(dict: obj))
+                self.branchs.append(soModel)
+            }
+        }
     }
     
     override func setValue(_ value: Any?, forKey key: String) {
         super.setValue(value, forKey: key)
-        if key == "actualAgentRateY" {
-            print("actualAgentRateY---\(value ?? "00001")")
-        }
     }
     
     override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        print("---forUndefinedKey---\(key)值为空")
+        print("---InfoModel--forUndefinedKey---\(key)值为空")
     }
     
     //MARK:- 数组转model

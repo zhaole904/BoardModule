@@ -11,11 +11,13 @@ import MJRefresh
 
 class BoardSwitchOrganViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
+    /// 选择机构后的回调
     var branchInfoBlock:((_ model: BoardBranchsoModel)->())?
     var dataArr: NSMutableArray = []
     var titleArr: NSArray = []
     var failureView: UIView?
-    var tableView:UITableView?
+    var tableView: UITableView?
+    var btnTag: NSInteger = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +27,7 @@ class BoardSwitchOrganViewController: UIViewController,UITableViewDelegate,UITab
         self.title = "切换机构"
         self.titleArr = ["一级","二级","三级","四级"]
         
+        self.creatSubViews()
     }
 
     func creatSubViews() -> () {
@@ -58,11 +61,10 @@ class BoardSwitchOrganViewController: UIViewController,UITableViewDelegate,UITab
             failureView = nil;
         }
         
-      
         let branchCode = OABoardBranchInfoManager.sharedBranchInfoManager.firstBranchCode
         
         if (branchCode.count == 0) {
-            self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1")
+            self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1")
             self.tableView?.reloadData()
             self.tableView?.mj_header.endRefreshing()
             return;
@@ -70,7 +72,6 @@ class BoardSwitchOrganViewController: UIViewController,UITableViewDelegate,UITab
         
         let key = "branchInfo"
         let params = ["brancePara" : branchCode, "flagPara" : "0"]
-        
         RequestTool.sharedInstance.getInsuranceperformanceDataWithKey(key: key, params: params as NSDictionary) { (resultData: HttpResultModel) in
             if resultData.result! {
                 if KgetResultFlag(data: resultData.data as! NSDictionary) {
@@ -80,7 +81,7 @@ class BoardSwitchOrganViewController: UIViewController,UITableViewDelegate,UITab
                     let bodyArr = dataDic["body"] as! [[String: AnyObject]]
                     
                     if dataDic.allKeys.count == 0 || bodyArr.count == 0 {
-                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1")
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1")
                         self.tableView?.reloadData()
                         self.tableView?.mj_header.endRefreshing()
                         return;
@@ -92,36 +93,39 @@ class BoardSwitchOrganViewController: UIViewController,UITableViewDelegate,UITab
                             let model = BoardInfoModel.dictToModel(dic: dict)
                             self.dataArr.add(model)
                         }
-                    
                     } else {  //code=N
-                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1")
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1")
                     }
                     
                 } else { //flag=N
-                    
-                    self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData.data as! NSDictionary), imageName: "OAUIKit.bundle/NoNetwork")
+                    self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData.data as! NSDictionary), imageName: "BoardUI.bundle/NoNetwork")
                 }
             } else { //result=nil;
-                self.showRequestFailureViewWithTitle(title: resultData.message!, imageName: "OAUIKit.bundle/NoNetwork")
+                self.showRequestFailureViewWithTitle(title: resultData.message!, imageName: "BoardUI.bundle/NoNetwork")
             }
-            
             self.tableView?.reloadData()
             self.tableView?.mj_header.endRefreshing()
         }
-        
     }
     
     func showRequestFailureViewWithTitle(title: String, imageName: String) -> () {
-
         failureView = UIView(frame: CGRect(x: 0, y: (SCREEN_H-safeNavH-150*ADAPTATION_WITH_WIDTH)/2.0, width: SCREEN_W, height: 150*ADAPTATION_WITH_WIDTH), title: title, imageName: imageName)
         
         self.view.addSubview(failureView!)
-        
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.dataArr.count
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataArr.count
+        if (self.dataArr.count > 0) {
+            let model = self.dataArr[section] as! BoardInfoModel
+            let branchs = model.branchs
+            return branchs.count+1;
+        } else {
+            return 0;
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -142,10 +146,11 @@ class BoardSwitchOrganViewController: UIViewController,UITableViewDelegate,UITab
         let cell = BoardTableViewCell.cellWithTableView(tableView: tableView, styleNum: boardVCtype.pipPerformance.rawValue)
         cell.contentLab?.isHidden = true
         
-        
         let model = self.dataArr[indexPath.section] as! BoardInfoModel
         if indexPath.row == 0 {
             cell.titleLab?.font = UIFont.boldSystemFont(ofSize: 16)
+            print(NSInteger(model.branchLevel)!);
+            
             cell.titleLab?.text = self.titleArr[NSInteger(model.branchLevel)!-1] as? String
             cell.isUserInteractionEnabled = false
         } else {
@@ -153,12 +158,11 @@ class BoardSwitchOrganViewController: UIViewController,UITableViewDelegate,UITab
             let branchs = model.branchs
             let branchsoModel = branchs[indexPath.row - 1]
             cell.titleLab?.text = branchsoModel.branchName
-            cell.titleLab?.setOA_width(oa_width: width(object: tableView)-20)
+            cell.titleLab?.width = tableView.width - 20
         }
    
         return cell
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row > 0 {
@@ -167,9 +171,9 @@ class BoardSwitchOrganViewController: UIViewController,UITableViewDelegate,UITab
             let branchsoModel = branchs[indexPath.row - 1]
             self.branchInfoBlock!(branchsoModel)
             self.navigationController?.popViewController(animated: true)
-            
         }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

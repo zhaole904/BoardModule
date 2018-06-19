@@ -119,18 +119,14 @@ class BoardModel: NSObject {
     
     override func setValue(_ value: Any?, forKey key: String) {
         super.setValue(value, forKey: key)
-        if key == "actualAgentRateY" {
-            print("actualAgentRateY---\(value ?? "00001")")
-        }
     }
     
     override func setValue(_ value: Any?, forUndefinedKey key: String) {
-        print("---forUndefinedKey---\(key)值为空")
+        print("---BoardModel-forUndefinedKey---\(key)值为空")
     }
     
     //MARK:- 数组转model
     class func listToModel(list:[[String: AnyObject]]) -> [BoardModel] {
-        
         var models = [BoardModel]()
         for dict in list {
             models.append(BoardModel(dict: dict))

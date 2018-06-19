@@ -12,6 +12,11 @@ import MJRefresh
 import MJExtension
 import MBProgressHUD
 
+
+/// 子类类型枚举
+///
+/// - gbRank: 规保排名
+/// - productMix: 产品结构
 enum childVCType: NSInteger {
     case gbRank = 1
     case productMix
@@ -24,7 +29,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
     var tempBtn:UIButton?
     var isRequestSuccess: Bool = false
     var btnTag: NSInteger = 0
-    private var tableView: UITableView?
+    var tableView: UITableView?
     
     var scrollView: UIScrollView?
     var segmentedControl: UISegmentedControl?
@@ -41,14 +46,12 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
     var bottomRightView: UIView?
     var activityIndicator: UIActivityIndicatorView?
     var failureView: UIView?
-    
     var branchCode: String?
     
-    
     private var isDetail: Bool = false
-    var isOPEN_today: Bool = false
-    var isOPEN_tomorary: Bool = false
-    var isOPEN_total: Bool = false
+    private var isOPEN_today: Bool = false
+    private var isOPEN_tomorary: Bool = false
+    private var isOPEN_total: Bool = false
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +60,6 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
         self.edgesForExtendedLayout = .bottom
         self.view.backgroundColor = ColorFromRGB(r: 245, g: 245, b: 245)
-        //            UIRectEdge(rawValue: 0)
         
         let dic = ["isOPEN_today":true,"isOPEN_tomorary":false,"isOPEN_total":false]
         let isOpendic = NSMutableDictionary.init(dictionary: dic)
@@ -69,6 +71,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
     }
     
+    // MARK: - creat UI
     func creatSubViews() -> () {
         titleLab = UILabel.init(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
         titleLab?.textAlignment = .center
@@ -87,6 +90,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         unitlab.font = UIFont.systemFont(ofSize: 11 * ADAPTATION_WITH_WIDTH)
         unitlab.textAlignment = .right
         topView.addSubview(unitlab)
+        self.unitLab = unitlab
         
         /// 适配iPhoneX
         if (SCREEN_H == 812) {
@@ -95,9 +99,8 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
             self.view.addSubview(bottomSafeView)
         }
         
-        scrollView = UIScrollView.init(frame: CGRect(x: 0, y: bottom(object: topView), width: SCREEN_W, height: SCREEN_H-safeNavH-height(object: topView)-safeBottomH))
+        scrollView = UIScrollView.init(frame: CGRect(x: 0, y: topView.bottomY, width: SCREEN_W, height: SCREEN_H-safeNavH-topView.height-safeBottomH))
         self.view.addSubview(scrollView!)
-//        scrollView?.backgroundColor = UIColor.orange
         
         let header = MJRefreshNormalHeader.init(refreshingTarget: self, refreshingAction: #selector(loadPageData))
         scrollView?.mj_header = header
@@ -109,7 +112,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         btnView.tag = 999;
         scrollView?.addSubview(btnView)
         
-        let segControlView = UIView.init(frame: CGRect(x: 0, y: bottom(object: btnView)-5, width: SCREEN_W, height: 70*ADAPTATION_WITH_WIDTH))
+        let segControlView = UIView.init(frame: CGRect(x: 0, y: btnView.bottomY-5, width: SCREEN_W, height: 70*ADAPTATION_WITH_WIDTH))
         segControlView.backgroundColor = UIColor.white
         
         segmentedControl = UISegmentedControl.init(items: ["个险总汇","个险明细"])
@@ -124,12 +127,12 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         segmentedControl?.layer.borderColor = ColorFromRGB(r: 0xF1, g: 0xF1, b: 0xF1).cgColor;
         
         ///  设置分段名的字体
-        segmentedControl?.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: ColorFromRGB(r: 0x33, g: 0x33, b: 0x33), NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15)], for: .normal)
-        segmentedControl?.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: ColorFromRGB(r: 0x5B, g: 0x5B, b: 0x5B), NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15)], for: .selected)
+    segmentedControl?.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: ColorFromRGB(r: 0x33, g: 0x33, b: 0x33), NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15)], for: .normal)
+    segmentedControl?.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: ColorFromRGB(r: 0x5B, g: 0x5B, b: 0x5B), NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15)], for: .selected)
         segmentedControl?.selectedSegmentIndex = 0;
         segmentedControl?.addTarget(self, action: #selector(selectItem(segControl:)), for: .valueChanged)
         
-        tableView = UITableView.init(frame: CGRect(x: 10, y: bottom(object: segControlView)+10, width: SCREEN_W-20, height: bottom(object: scrollView!)-bottom(object: segControlView)-20-bottom(object: topView)-50))
+        tableView = UITableView.init(frame: CGRect(x: 10, y: segControlView.bottomY+10, width: SCREEN_W-20, height: (scrollView?.bottomY)!-segControlView.bottomY-20-topView.bottomY-50))
         tableView?.delegate = self
         tableView?.dataSource = self
         tableView?.estimatedSectionFooterHeight = 0
@@ -141,26 +144,11 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         scrollView?.addSubview(tableView!)
         
         if childVCnum > 0 {
-            let rowView = UIView.init(frame: CGRect(x: 0, y: bottom(object: btnView)-5, width: SCREEN_W, height: 15))
+            let rowView = UIView.init(frame: CGRect(x: 0, y: btnView.bottomY-5, width: SCREEN_W, height: 15))
             rowView.backgroundColor = UIColor.white
             scrollView?.addSubview(rowView)
             
-            tableView?.frame = CGRect(x: 10, y: bottom(object: rowView)+10, width: SCREEN_W-20, height: SCREEN_H-safeNavH-safeBottomH-bottom(object: rowView)-height(object: topView)-20)
-            
-            if childVCnum == childVCType.gbRank.rawValue {
-                titleLab?.text = OABoardBranchInfoManager.sharedBranchInfoManager.gbRankBranchDic["branchName"] as? String
-                
-            } else if childVCnum == childVCType.productMix.rawValue{
-                titleLab?.text =  OABoardBranchInfoManager.sharedBranchInfoManager.productMixBranchDic["branchName"] as? String
-            }
-            
-            /// ----------------
-                        if (titleLab?.text)! == "" || OABoardBranchInfoManager.sharedBranchInfoManager.isGborProduct {
-//            titleLab?.text = "sdasd"
-//                                OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchName"] as? String
-            
-                        }
-            
+            tableView?.frame = CGRect(x: 10, y: rowView.bottomY+10, width: SCREEN_W-20, height: SCREEN_H-safeNavH-safeBottomH-rowView.bottomY-rowView.height-20)
             self.navigationItem.titleView = titleLab
             self.loadPageData()
         } else {
@@ -182,6 +170,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
     }
     
+    // MARK: 规保排名 产品结构按钮
     func creatBtnViewWithImageName(imageName: String, title: String, x: CGFloat, y: CGFloat, w: CGFloat, h: CGFloat) -> (UIView) {
         let subView = UIView.init(frame: CGRect(x: x, y: y, width: w, height: h))
         subView.backgroundColor = UIColor.white
@@ -191,7 +180,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         imageV.image = UIImage.init(named: imageName)
         subView.addSubview(imageV)
         
-        let lab = UILabel.init(frame: CGRect(x: right(object: imageV)+8, y: 0, width: 75, height: h))
+        let lab = UILabel.init(frame: CGRect(x: imageV.rightX+8, y: 0, width: 75, height: h))
         lab.text = title;
         lab.font = UIFont.systemFont(ofSize: 16)
         lab.textColor = ColorFromRGB(r: 0x56, g: 0x56, b: 0x56);
@@ -202,6 +191,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         return subView;
     }
     
+    // MARK: - 规保排名/产品结构action
     @objc func btnViewClick(tap: UITapGestureRecognizer) -> () {
         OABoardBranchInfoManager.sharedBranchInfoManager.isGborProduct = true
         if tap.view?.restorationIdentifier == "规保排名" {
@@ -235,15 +225,14 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         if (self.isDetail) {
             self.bottomLeftView?.removeFromSuperview()
             self.bottomRightView?.removeFromSuperview()
-            self.tableView?.frame = CGRect(x: originx(object: tableView!), y: originy(object: tableView!), width: width(object: tableView!), height: height(object: tableView!)+50)
+            self.tableView?.size = CGSize(width: (tableView?.width)!, height: (tempBtn?.height)!+50)
         } else {
             self.view.addSubview(self.bottomLeftView!)
             self.view.addSubview(self.bottomRightView!)
-            self.tableView?.frame = CGRect(x: originx(object: tableView!), y: originy(object: tableView!), width: width(object: tableView!), height: height(object: tableView!)-50)
+            self.tableView?.size = CGSize(width: (tableView?.width)!, height: (tempBtn?.height)!-50)
         }
         
         self.dataArr.removeAllObjects()
-        
         self.loadPageData()
     }
     
@@ -257,7 +246,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
             isDetail = false
             view.addSubview(bottomLeftView!)
             view.addSubview(bottomRightView!)
-            tableView?.frame = CGRect(x: originx(object: tableView!), y: originy(object: tableView!), width: width(object: tableView!), height: height(object: tableView!)-50)
+            tableView?.size = CGSize(width: (tableView?.width)!, height: (tableView?.height)!-50)
         }
         
         tempBtn?.isSelected = false
@@ -269,13 +258,36 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         btnTag = btn.tag
         loadPageData()
-        
     }
     
+    // MARK: 切换机构
     @objc func switchMechanism() -> () {
+        let soVC = BoardSwitchOrganViewController()
+        soVC.btnTag = self.btnTag
         
+        soVC.branchInfoBlock = {[weak self]
+            (model: BoardBranchsoModel)  in
+            if OABoardBranchInfoManager.sharedBranchInfoManager.isGborProduct == true {
+                OABoardBranchInfoManager.sharedBranchInfoManager.isGborProduct = false
+            }
+            if self?.childVCnum == 0 {
+                OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(model.branchCode, forKey: "branchCode")
+                OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(model.branchName, forKey: "branchName")
+            } else if self?.childVCnum == childVCType.gbRank.rawValue {
+                OABoardBranchInfoManager.sharedBranchInfoManager.gbRankBranchDic.setValue(model.branchCode, forKey: "branchCode")
+                OABoardBranchInfoManager.sharedBranchInfoManager.gbRankBranchDic.setValue(model.branchName, forKey: "branchName")
+            } else {
+                OABoardBranchInfoManager.sharedBranchInfoManager.productMixBranchDic.setValue(model.branchCode, forKey: "branchCode")
+                OABoardBranchInfoManager.sharedBranchInfoManager.productMixBranchDic.setValue(model.branchName, forKey: "branchName")
+            }
+            self?.titleLab?.text = model.branchName
+            self?.navigationItem.titleView = self?.titleLab
+            self?.loadPageData()
+        }
+        self.navigationController?.pushViewController(soVC, animated: true)
     }
     
+    // MARK: - 网络请求，验证用户是否有权限
     func loadUserLimitBranchData() -> () {
         hud = MBProgressHUD.showAdded(to: view, animated: true)
         hud?.mode = .indeterminate
@@ -286,54 +298,55 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
         
         let key = "userLimitBranch"
-                RequestTool.sharedInstance.getInsuranceperformanceDataWithKey(key: key, params: ["brancePara":"-1"]) { (resultData: HttpResultModel) in
-        
-                    if resultData.result! {
-                        if KgetResultFlag(data: resultData.data as! NSDictionary) {
-                            self.dataArr.removeAllObjects()
-        
-                            let dataDic = KgetResultParam(data: resultData.data!, key: key)
-                            if dataDic.allKeys.count == 0 || dataDic["body"] == nil {
-//        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1", userLimit: false)
-        self.tableView?.reloadData()
-        self.scrollView?.mj_header.endRefreshing()
-        return
-                            }
-                            
-                            let code: String = dataDic["code"] as! String
-                            if (code == "Y") {
-                                self.hud?.hide(animated: true)
-                                self.hud = nil;
-                                let bodyDic = dataDic["body"] as! NSDictionary
-                                let branchCode = bodyDic["branchCode"] as! String
-                                OABoardBranchInfoManager.sharedBranchInfoManager.firstBranchCode = branchCode
-                                OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(branchCode, forKey: "branchCode")
-                                
-                                OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(bodyDic["branchName"] as! String, forKey: "branchName")
-                                OABoardBranchInfoManager.sharedBranchInfoManager.gbRankBranchDic.setValue(branchCode, forKey: "branchCode")
-                                OABoardBranchInfoManager.sharedBranchInfoManager.productMixBranchDic.setValue(branchCode, forKey: "branchCode")
-        self.activityIndicator?.stopAnimating()
-                                self.activityIndicator?.removeFromSuperview()
-                                
-                                self.titleLab?.text = bodyDic["branchName"] as? String
-                                self.navigationItem.titleView = self.titleLab
-                                self.loadPageData()
-        
-                            } else { //code=N;
-                            self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: false)
-                  
-                            }
-                       
-                        } else { //flag=N;
-                            self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData.data as! NSDictionary), imageName: "BoardUI.bundle/NoNetwork", userLimit: false)
-                        }
-                    
-                    } else {  //result=nil;
-                        self.showRequestFailureViewWithTitle(title: resultData.message!, imageName: "BoardUI.bundle/NoNetwork", userLimit: false)
+        RequestTool.sharedInstance.getInsuranceperformanceDataWithKey(key: key, params: ["brancePara":"-1"]) { (resultData: HttpResultModel) in
+
+            if resultData.result! {
+                if KgetResultFlag(data: resultData.data as! NSDictionary) {
+                    self.dataArr.removeAllObjects()
+
+                    let dataDic = KgetResultParam(data: resultData.data!, key: key)
+                    if dataDic.allKeys.count == 0 || dataDic["body"] == nil {
+
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: false)
+                        self.tableView?.reloadData()
+                        self.scrollView?.mj_header.endRefreshing()
+                        return
                     }
-    }
+                    
+                    let code: String = dataDic["code"] as! String
+                    if (code == "Y") {
+                        self.hud?.hide(animated: true)
+                        self.hud = nil;
+                        let bodyDic = dataDic["body"] as! NSDictionary
+                        let branchCode = bodyDic["branchCode"] as! String
+                        OABoardBranchInfoManager.sharedBranchInfoManager.firstBranchCode = branchCode
+                        OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(branchCode, forKey: "branchCode")
+                        OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(bodyDic["branchName"] as! String, forKey: "branchName")
+                        OABoardBranchInfoManager.sharedBranchInfoManager.gbRankBranchDic.setValue(branchCode, forKey: "branchCode")
+                        OABoardBranchInfoManager.sharedBranchInfoManager.productMixBranchDic.setValue(branchCode, forKey: "branchCode")
+                        
+                        self.activityIndicator?.stopAnimating()
+                        self.activityIndicator?.removeFromSuperview()
+                        
+                        self.titleLab?.text = bodyDic["branchName"] as? String
+                        self.navigationItem.titleView = self.titleLab
+                        self.loadPageData()
+
+                    } else { //code=N;
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: false)
+                    }
+               
+                } else { //flag=N;
+                    self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData.data as! NSDictionary), imageName: "BoardUI.bundle/NoNetwork", userLimit: false)
+                }
+            
+            } else {  //result=nil;
+                self.showRequestFailureViewWithTitle(title: resultData.message!, imageName: "BoardUI.bundle/NoNetwork", userLimit: false)
+            }
+        }
     }
     
+    // MARK: 加载数据
     @objc func loadPageData() -> () {
         
         if (failureView != nil) {
@@ -341,14 +354,14 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
             failureView = nil;
         }
         
-        if ((scrollView?.mj_offsetY)! > -10) { //下拉刷新时 mj_offsetY = -54
+        if ((scrollView?.mj_offsetY)! > -10) { /// 下拉刷新显示hud mj_offsetY = -54
             hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud?.mode = .indeterminate
         }
         
         isRequestSuccess = false
         if (childVCnum == 0) {
-            branchCode = OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchCode"] as! String
+            branchCode = OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchCode"] as? String
         } else if (childVCnum == childVCType.gbRank.rawValue) {
             branchCode = OABoardBranchInfoManager.sharedBranchInfoManager.gbRankBranchDic["branchCode"] as? String
         } else if (childVCnum == childVCType.productMix.rawValue) {
@@ -361,10 +374,8 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         let branchName = OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchName"] as? String
         
-        if (branchCode == "" || branchName == "") {
-
-            self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1", userLimit: false)
-
+        if (branchCode?.count == 0 || branchName?.count == 0) {
+            self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: false)
             self.tableView?.reloadData()
             self.scrollView?.mj_header.endRefreshing()
             return;
@@ -372,7 +383,6 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
      
         //  01 - 传统 40 - 招证 41 - 经代 A - 个险
         deptTypeParams = ["A","01","40","41"];
-        
         var key = self.isDetail == true ? "getBranchDetailData" : "getBranchSumData";
         if (self.childVCnum == childVCType.gbRank.rawValue) {
             key = "scaleRank";
@@ -381,7 +391,6 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
         
         let deptTypePara = deptTypeParams![(tempBtn?.tag)!];
-        
         let params = ["brancePara" : self.branchCode!, "flagPara" : "1", "deptTypePara" : deptTypePara]
         
         RequestTool.sharedInstance.getInsuranceperformanceDataWithKey(key: key, params: params as NSDictionary) { (resultData: HttpResultModel) in
@@ -393,7 +402,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
                     let bodyArr = dataDic["body"] as! [[String: AnyObject]]
 
                     if dataDic.allKeys.count == 0 || bodyArr.count == 0 {
-                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1", userLimit: true)
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: true)
                         self.tableView?.reloadData()
                         self.scrollView?.mj_header.endRefreshing()
                         return
@@ -401,16 +410,9 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
                     
                     let code: String = dataDic["code"] as! String
                     if (code == "Y") {
-                        // ------------ //
-//                        let models = BoardModel.listToModel(list: bodyArr)
-                        
-                        for dict in bodyArr {
-                            let model = BoardModel.dictToModel(dic: dict)
-                            self.dataArr.add(model)
-                        }
-                        
-                        
-                       // ------------ //
+                        let modelArr = BoardModel.listToModel(list: bodyArr)
+                        self.dataArr = NSMutableArray.init(array: modelArr)
+
                         let bodyDic = bodyArr[0]
                         let unit: String = (self.childVCnum > 0) ? "单位:万元" : ""
                         self.timeLab?.text = String(format: "数据为%@渠道 更新时间为%@", self.channelArr[self.btnTag] as! String, bodyDic["updatedDate"] as! String)
@@ -420,51 +422,51 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
                         self.hud?.hide(animated: true)
                         self.hud = nil;
                     } else {  //code=N
-                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OAUIKit.bundle/NoData1", userLimit: true)
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: true)
                     }
                     
                 } else { //flag=N
                     
-                    self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData.data as! NSDictionary), imageName: "OAUIKit.bundle/NoNetwork", userLimit: true)
+                    self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData.data as! NSDictionary), imageName: "BoardUI.bundle/NoNetwork", userLimit: true)
                 }
             } else { //result=nil;
-                self.showRequestFailureViewWithTitle(title: resultData.message!, imageName: "OAUIKit.bundle/NoNetwork", userLimit: true)
+                self.showRequestFailureViewWithTitle(title: resultData.message!, imageName: "BoardUI.bundle/NoNetwork", userLimit: true)
             }
             
             self.tableView?.reloadData()
             self.scrollView?.mj_header.endRefreshing()
         }
-        
     }
     
+    // MARK: 请求失败的占位图
     func showRequestFailureViewWithTitle(title: String, imageName: String, userLimit:Bool) -> () {
-                if userLimit == false {
-                    let alertActionView = UIAlertController.init(title: "温馨提示", message: "此用户没有权限", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "确定", style: .default, handler:{
-                        (UIAlertAction) -> Void in
-                        self.navigationController?.popViewController(animated: true)
-                    })
-        
-                    alertActionView.addAction(okAction)
-                    self.present(alertActionView, animated: true, completion: nil)
-                    }
+        if userLimit == false {
+            let alertActionView = UIAlertController.init(title: "温馨提示", message: "此用户没有权限", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "确定", style: .default, handler:{
+                (UIAlertAction) -> Void in
+                self.navigationController?.popViewController(animated: true)
+            })
+
+            alertActionView.addAction(okAction)
+            self.present(alertActionView, animated: true, completion: nil)
+        }
         
         activityIndicator?.stopAnimating()
         hud?.hide(animated: true)
         hud = nil
         
         let btnView = scrollView?.viewWithTag(999)
-        var y = bottom(object: btnView!)
+        var y = btnView?.bottomY
         if (childVCnum == 0) {
-            y = y + 70 * ADAPTATION_WITH_WIDTH;
+            y = y! + 70 * ADAPTATION_WITH_WIDTH;
         }
         
-        failureView = UIView(frame: CGRect(x: 0, y: y+84, width: SCREEN_W, height: 150*ADAPTATION_WITH_WIDTH), title: title, imageName: imageName)
-        
+        failureView = UIView(frame: CGRect(x: 0, y: y!+84, width: SCREEN_W, height: 150*ADAPTATION_WITH_WIDTH), title: title, imageName: imageName)
         scrollView?.addSubview(failureView!)
         
     }
     
+    // MARK: - tableView.delegate
     func numberOfSections(in tableView: UITableView) -> Int {
         if isRequestSuccess == false {
             return 0
@@ -472,7 +474,6 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
             return self.isDetail ? 3 : 1
         }
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isRequestSuccess == false {
@@ -497,16 +498,12 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
     }
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 50
-//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return self.isDetail ? 50 : 0.001
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        
         if section == 3 {
             return 0.0001
         } else {
@@ -527,9 +524,9 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         headerView.addSubview(titleLab)
 
         
-        let btn = UIButton(frame: CGRect(x: width(object: headerView)-60, y: 0, width: 60, height: 50))
+        let btn = UIButton(frame: CGRect(x: headerView.width-60, y: 0, width: 60, height: 50))
         btn.tag = section
-        btn.addTarget(section, action: #selector(sectionBtnClick(btn:)), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(sectionBtnClick(btn:)), for: .touchUpInside)
         headerView.addSubview(btn)
         
         let btnImageV = UIImageView(frame: CGRect(x: 15, y: 20, width: 30, height: 10))
@@ -568,10 +565,10 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
             let model = self.dataArr.firstObject as! BoardModel
             cell.refreshModel(model: model, indexPath: indexPath, btnTag: self.btnTag, isDetail: self.isDetail)
         }
-        
         return cell
     }
     
+    // MARK: -tableView.section是否展开
     @objc func sectionBtnClick(btn: UIButton) -> () {
         btn.isSelected = !btn.isSelected
         if (btn.tag == 0) {
@@ -590,6 +587,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         self.tableView?.reloadData()
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

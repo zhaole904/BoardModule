@@ -21,53 +21,53 @@ class BoardTableViewCell: UITableViewCell {
     var lineLab: UILabel?
     var midLab: UILabel?
     static var typeNum: NSInteger = 0
-    
+
+    /// 自定义cell的类型
+    ///
+    /// - Parameters:
+    ///   - tableView: UITableView
+    ///   - styleNum: boardVCtype--cell的类型
+    /// - Returns: 返回的cell
     class func cellWithTableView(tableView:UITableView, styleNum:NSInteger) -> BoardTableViewCell {
         let str = NSStringFromClass(BoardTableViewCell.self)
         var cell = tableView.dequeueReusableCell(withIdentifier: str)
         typeNum = styleNum
+        
         if cell == nil {
             cell = BoardTableViewCell.init(style: .default, reuseIdentifier: str)
-//            cell.typeNum = typeNum
             cell?.selectionStyle = UITableViewCellSelectionStyle.none
         }
-        
         return cell! as! BoardTableViewCell
     }
     
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
  
         let w = (SCREEN_W-20-20*2)/3
         self.contentView.frame = CGRect(x: 0, y: 0, width: SCREEN_W-20, height: 0)
-        
         titleLab = UILabel.init(frame: CGRect(x: 20, y: 0, width: w*2, height: 49))
         titleLab?.font = UIFont.systemFont(ofSize: 16)
         titleLab?.textColor = ColorFromRGB(r: 51, g: 51, b: 51)
         self.contentView.addSubview(titleLab!)
-//        titleLab?.backgroundColor = UIColor.cyan
         
         contentLab = UILabel.init(frame: CGRect(x: 20+2*w, y: 0, width: w, height: 49))
         contentLab?.font = UIFont.systemFont(ofSize: 16)
         contentLab?.textColor = ColorFromRGB(r: 51, g: 51, b: 51)
         contentLab?.textAlignment = .right
         self.contentView.addSubview(contentLab!)
-//        contentLab?.backgroundColor = UIColor.blue
         
         lineLab = UILabel.init(frame: CGRect(x: 20, y: 0, width: self.contentView.frame.size.width - 40, height: 1))
         lineLab?.backgroundColor = ColorFromRGB(r: 245, g: 245, b: 245)
         self.contentView.addSubview(lineLab!)
         
         if BoardTableViewCell.typeNum != boardVCtype.pipPerformance.rawValue {
-            titleLab?.setOA_width(oa_width: w)
-            
-            midLab = UILabel.init(frame: CGRect(x: right(object: titleLab!), y: 0, width: w, height: 49))
+           
+            titleLab?.width = w
+            midLab = UILabel.init(frame: CGRect(x: (titleLab?.rightX)!, y: 0, width: w, height: 49))
             midLab?.font = UIFont.systemFont(ofSize: 16)
             midLab?.textColor = ColorFromRGB(r: 51, g: 51, b: 51)
             midLab?.textAlignment = .center
             self.contentView.addSubview(midLab!)
-//            midLab?.backgroundColor = UIColor.green
             
             contentLab?.frame = CGRect(x: self.contentView.frame.size.width-20-40, y: 0, width: 40, height: 49)
             contentLab?.textAlignment = .center
@@ -75,7 +75,7 @@ class BoardTableViewCell: UITableViewCell {
     }
     
     func refreshModel(model: BoardModel, indexPath: IndexPath, btnTag: NSInteger, isDetail: Bool) -> () {
-        if (BoardTableViewCell.typeNum == boardVCtype.gbRank.rawValue) {  //规保排名
+        if (BoardTableViewCell.typeNum == boardVCtype.gbRank.rawValue) {  /// 规保排名
             if (indexPath.section == 0) {
                 self.setDataToRowViewWith(title: model.branchName, content: model.scalePremRankD, midContent: model.scalePremD)
             } else if (indexPath.section == 1) {
@@ -83,15 +83,15 @@ class BoardTableViewCell: UITableViewCell {
             } else if (indexPath.section == 2) {
                 self.setDataToRowViewWith(title: model.branchName, content: model.scalePremRankY, midContent: model.scalePremY)
             }
-        }  else if (BoardTableViewCell.typeNum == boardVCtype.productMix.rawValue) { //产品结构
+        } else if (BoardTableViewCell.typeNum == boardVCtype.productMix.rawValue) { /// 产品结构
             if (indexPath.section == 0 ) {
-                self.setDataToRowViewWith(title: model.branchName, content: model.productRateM, midContent: model.scalePremM)
+                self.setDataToRowViewWith(title: model.productName, content: model.productRateM, midContent: model.scalePremM)
             } else if (indexPath.section == 1) {
-                self.setDataToRowViewWith(title: model.branchName, content: model.productRateY, midContent: model.scalePremY)
+                self.setDataToRowViewWith(title: model.productName, content: model.productRateY, midContent: model.scalePremY)
             }
             
         } else {
-            if (isDetail) {  //个险明细
+            if (isDetail) {  /// 个险明细
                 if (indexPath.section == 0) {
                     if (indexPath.row == 0) {
                         self.setDataToRowViewWith(title: "规保保费", content: model.scalePremD, unit: "万")
@@ -117,7 +117,6 @@ class BoardTableViewCell: UITableViewCell {
                         self.setDataToRowViewWith(title: "规保保费", content: model.scalePremY, unit: "万")
                     } else if (indexPath.row == 1) {
                         self.setDataToRowViewWith(title: "规保件数", content: model.scaleCountY, unit: "件")
-                        
                     } else if (indexPath.row == 2) {
                         self.setDataToRowViewWith(title: "暂收保费", content: model.tmpSumY, unit: "万")
                     } else if (indexPath.row == 3) {
@@ -126,7 +125,7 @@ class BoardTableViewCell: UITableViewCell {
                         self.setDataToRowViewWith(title: "（5天）未生效保费", content: model.effectPremY5, unit: "万")
                     }
                 }
-            } else {  //个险总汇
+            } else {  /// 个险总汇
                 if (BoardTableViewCell.typeNum == boardVCtype.pipPerformance.rawValue) {
                     
                     if (indexPath.row == 0) {
@@ -134,7 +133,7 @@ class BoardTableViewCell: UITableViewCell {
                         self.contentLab?.text = String(format: "%@%%", model.achievRateY)
                     } else if (indexPath.row == 1) {
                         self.titleLab?.text = "本日规保"
-                        self.contentLab?.text = String(format: "%@万", model.achievRateY.isEmpty ? "0" : model.achievRateY)
+                        self.contentLab?.text = String(format: "%@万", model.scalePremD.isEmpty ? "0" : model.scalePremD)
                     } else if (indexPath.row == 2) {
                         if (btnTag < 2) {
                             self.titleLab?.text = "本日实动人力"
@@ -154,7 +153,6 @@ class BoardTableViewCell: UITableViewCell {
                             self.titleLab?.text = "本月实动率"
                             self.contentLab?.text = String(format: "%@%%", model.actualAgentRateM.isEmpty ? "0" : model.actualAgentRateM)
                         } else {
-                            
                             self.titleLab?.text = "本年规保"
                             self.contentLab?.text = String(format: "%@万", model.scalePremY.isEmpty ? "0" : model.scalePremY)
                         }
@@ -163,21 +161,19 @@ class BoardTableViewCell: UITableViewCell {
                         if (btnTag < 2) {
                             self.titleLab?.text = "本年规保"
                             self.contentLab?.text = String(format: "%@万", model.scalePremY.isEmpty ? "0" : model.scalePremY)
-                           
                         }
                     } else if (indexPath.row == 6) {
                         if (btnTag < 2) {
                             self.titleLab?.text = "本年月均实动率"
                             self.contentLab?.text = String(format: "%@%%", model.actualAgentRateY.isEmpty ? "0" : model.actualAgentRateY)
                         }
-                        
                     }
                 }
             }
         }
-        
     }
     
+    /// 个险明细
     func setDataToRowViewWith(title: String, content: String, unit:String) -> () {
         self.titleLab?.text = title
         
@@ -193,12 +189,17 @@ class BoardTableViewCell: UITableViewCell {
         }
     }
     
-    //规保排名 产品结构
+    /// 规保排名 产品结构
     func setDataToRowViewWith(title: String, content: String, midContent: String) -> () {
         let contentt = (content == "%" ? "0%" : content)
-        self.titleLab?.text = title;
-        self.midLab?.text = midContent;
-        self.contentLab?.text = contentt;
+        self.titleLab?.text = title
+        self.midLab?.text = midContent
+        
+        if (BoardTableViewCell.typeNum == boardVCtype.gbRank.rawValue) {
+            self.contentLab?.text = contentt
+        } else {
+            self.contentLab?.text = contentt + "%"
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
