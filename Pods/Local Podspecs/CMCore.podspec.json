@@ -1,0 +1,88 @@
+{
+  "name": "CMCore",
+  "version": "0.1.2beta",
+  "summary": "iOS Base OC Foundation",
+  "description": "A base OC foundation for iOS.",
+  "homepage": "http://git.dev.cmrh.com/FrontEnd/Architecture/iOS/CMCore",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "PengTao": "pengt@cmrh.com"
+  },
+  "source": {
+    "git": "http://git.dev.cmrh.com/FrontEnd/Architecture/iOS/CMCore.git",
+    "tag": "0.1.2beta"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "public_header_files": "CMCore/CMCore.h",
+  "source_files": "CMCore/CMCore.h",
+  "subspecs": [
+    {
+      "name": "Storage",
+      "public_header_files": "CMCore/Storage/*.h",
+      "source_files": "CMCore/Storage/*.{h,m}",
+      "dependencies": {
+        "CMCore/DataBase": [
+
+        ],
+        "CMCore/Crypto": [
+
+        ]
+      }
+    },
+    {
+      "name": "DataBase",
+      "public_header_files": "CMCore/DataBase/*.h",
+      "source_files": "CMCore/DataBase/*.{h,m}",
+      "dependencies": {
+        "FMDB/SQLCipher": [
+          "~> 2.7.2"
+        ]
+      }
+    },
+    {
+      "name": "HTTP",
+      "public_header_files": "CMCore/HTTP/*.h",
+      "source_files": "CMCore/HTTP/*.{h,m}",
+      "dependencies": {
+        "AFNetworking/NSURLSession": [
+          "~> 3.2.0"
+        ],
+        "CMCore/Crypto": [
+
+        ]
+      }
+    },
+    {
+      "name": "Compression",
+      "public_header_files": "CMCore/Compression/*.h",
+      "source_files": "CMCore/Compression/*.{h,m}",
+      "ios": {
+        "libraries": "z"
+      }
+    },
+    {
+      "name": "Crypto",
+      "public_header_files": "CMCore/Crypto/*.h",
+      "source_files": "CMCore/Crypto/*.{h,m}",
+      "xcconfig": {
+        "HEADER_SEARCH_PATHS": "$(SDKROOT)/usr/include/CommonCrypto"
+      }
+    },
+    {
+      "name": "ImageUtil",
+      "public_header_files": "CMCore/ImageUtil/*.h",
+      "source_files": "CMCore/ImageUtil/*.{h,m}"
+    },
+    {
+      "name": "Log",
+      "public_header_files": "CMCore/Log/*.h",
+      "source_files": "CMCore/Log/*.{h,m}"
+    }
+  ]
+}

@@ -9,9 +9,8 @@
 import UIKit
 import Foundation
 import MJRefresh
-import MJExtension
 import MBProgressHUD
-
+import SwiftyJSON
 
 /// 子类类型枚举
 ///
@@ -105,8 +104,8 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let header = MJRefreshNormalHeader.init(refreshingTarget: self, refreshingAction: #selector(loadPageData))
         scrollView?.mj_header = header
         
-        let norImageArr: NSArray = ["BoardUI.bundle/pip","BoardUI.bundle/tradition","BoardUI.bundle/zhaoZ","BoardUI.bundle/jingD"]
-        let selectImgArr: NSArray = ["BoardUI.bundle/pip_sel","BoardUI.bundle/tradition_sel","BoardUI.bundle/zhaoZ_sel","BoardUI.bundle/jingD_sel"]
+        let norImageArr: NSArray = ["OABoardUI.bundle/pip","OABoardUI.bundle/tradition","OABoardUI.bundle/zhaoZ","OABoardUI.bundle/jingD"]
+        let selectImgArr: NSArray = ["OABoardUI.bundle/pip_sel","OABoardUI.bundle/tradition_sel","OABoardUI.bundle/zhaoZ_sel","OABoardUI.bundle/jingD_sel"]
         
         let btnView = self.creatButtonWithNomalImage(nomImgArr: norImageArr, selImgArr: selectImgArr)
         btnView.tag = 999;
@@ -149,6 +148,8 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
             scrollView?.addSubview(rowView)
             
             tableView?.frame = CGRect(x: 10, y: rowView.bottomY+10, width: SCREEN_W-20, height: SCREEN_H-safeNavH-safeBottomH-rowView.bottomY-rowView.height-20)
+            
+            titleLab?.text = OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchName"] as? String
             self.navigationItem.titleView = titleLab
             self.loadPageData()
         } else {
@@ -160,10 +161,10 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
             self.navigationItem.titleView = self.activityIndicator;
             scrollView?.addSubview(segControlView)
             
-            bottomLeftView = self.creatBtnViewWithImageName(imageName: "BoardUI.bundle/gbRankings", title: "规保排名", x: 0, y: SCREEN_H-safeNavH-50-safeBottomH, w: SCREEN_W/2.0, h: 50)
+            bottomLeftView = self.creatBtnViewWithImageName(imageName: "OABoardUI.bundle/gbRankings", title: "规保排名", x: 0, y: SCREEN_H-safeNavH-50-safeBottomH, w: SCREEN_W/2.0, h: 50)
             self.view.addSubview(bottomLeftView!)
             
-            bottomRightView = self.creatBtnViewWithImageName(imageName: "BoardUI.bundle/productMix", title: "产品结构", x: SCREEN_W/2.0, y: SCREEN_H-safeNavH-50-safeBottomH, w: SCREEN_W/2.0, h: 50)
+            bottomRightView = self.creatBtnViewWithImageName(imageName: "OABoardUI.bundle/productMix", title: "产品结构", x: SCREEN_W/2.0, y: SCREEN_H-safeNavH-50-safeBottomH, w: SCREEN_W/2.0, h: 50)
             self.view.addSubview(bottomRightView!)
             
             self.loadUserLimitBranchData()
@@ -195,9 +196,9 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
     @objc func btnViewClick(tap: UITapGestureRecognizer) -> () {
         OABoardBranchInfoManager.sharedBranchInfoManager.isGborProduct = true
         if tap.view?.restorationIdentifier == "规保排名" {
-            self.navigationController?.pushViewController(BoardGBRankViewController.init(), animated: true)
+            self.navigationController?.pushViewController(OABoardGBRankViewController.init(), animated: true)
         } else {
-            self.navigationController?.pushViewController(BoardProductMixViewController.init(), animated: true)
+            self.navigationController?.pushViewController(OABoardProductMixViewController.init(), animated: true)
         }
     }
     
@@ -225,11 +226,11 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         if (self.isDetail) {
             self.bottomLeftView?.removeFromSuperview()
             self.bottomRightView?.removeFromSuperview()
-            self.tableView?.size = CGSize(width: (tableView?.width)!, height: (tempBtn?.height)!+50)
+            self.tableView?.size = CGSize(width: (tableView?.width)!, height: (tableView?.height)!+50)
         } else {
             self.view.addSubview(self.bottomLeftView!)
             self.view.addSubview(self.bottomRightView!)
-            self.tableView?.size = CGSize(width: (tableView?.width)!, height: (tempBtn?.height)!-50)
+            self.tableView?.size = CGSize(width: (tableView?.width)!, height: (tableView?.height)!-50)
         }
         
         self.dataArr.removeAllObjects()
@@ -262,7 +263,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     // MARK: 切换机构
     @objc func switchMechanism() -> () {
-        let soVC = BoardSwitchOrganViewController()
+        let soVC = OABoardSwitchOrganViewController()
         soVC.btnTag = self.btnTag
         
         soVC.branchInfoBlock = {[weak self]
@@ -298,16 +299,15 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
         
         let key = "userLimitBranch"
-        RequestTool.sharedInstance.getInsuranceperformanceDataWithKey(key: key, params: ["brancePara":"-1"]) { (resultData: HttpResultModel) in
-
-            if resultData.result! {
-                if KgetResultFlag(data: resultData.data as! NSDictionary) {
+        OABoardHTTPManager.shared().getInsuranceperformanceData(withKey: key, params: ["brancePara":"-1"]) { (resultData) in
+            if (resultData?.result)! {
+                if KgetResultFlag(data: resultData?.data as! NSDictionary) {
                     self.dataArr.removeAllObjects()
-
-                    let dataDic = KgetResultParam(data: resultData.data!, key: key)
+                    
+                    let dataDic = KgetResultParam(data: resultData!.data! as AnyObject, key: key)
                     if dataDic.allKeys.count == 0 || dataDic["body"] == nil {
-
-                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: false)
+                        
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OABoardUI.bundle/NoData1", userLimit: false)
                         self.tableView?.reloadData()
                         self.scrollView?.mj_header.endRefreshing()
                         return
@@ -317,31 +317,30 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
                     if (code == "Y") {
                         self.hud?.hide(animated: true)
                         self.hud = nil;
-                        let bodyDic = dataDic["body"] as! NSDictionary
-                        let branchCode = bodyDic["branchCode"] as! String
-                        OABoardBranchInfoManager.sharedBranchInfoManager.firstBranchCode = branchCode
-                        OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(branchCode, forKey: "branchCode")
-                        OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(bodyDic["branchName"] as! String, forKey: "branchName")
-                        OABoardBranchInfoManager.sharedBranchInfoManager.gbRankBranchDic.setValue(branchCode, forKey: "branchCode")
-                        OABoardBranchInfoManager.sharedBranchInfoManager.productMixBranchDic.setValue(branchCode, forKey: "branchCode")
+                        let bodyDic = JSON.init(dataDic)["body"]
+                        let branchCode = bodyDic["branchCode"].stringValue
+                    OABoardBranchInfoManager.sharedBranchInfoManager.firstBranchCode = branchCode
+                    OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(branchCode, forKey: "branchCode")
+                    OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic.setValue(bodyDic["branchName"].string ?? "", forKey: "branchName")
+                    OABoardBranchInfoManager.sharedBranchInfoManager.gbRankBranchDic.setValue(branchCode, forKey: "branchCode")
+                    OABoardBranchInfoManager.sharedBranchInfoManager.productMixBranchDic.setValue(branchCode, forKey: "branchCode")
                         
                         self.activityIndicator?.stopAnimating()
                         self.activityIndicator?.removeFromSuperview()
                         
-                        self.titleLab?.text = bodyDic["branchName"] as? String
+                        self.titleLab?.text = bodyDic["branchName"].stringValue
                         self.navigationItem.titleView = self.titleLab
                         self.loadPageData()
-
                     } else { //code=N;
-                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: false)
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OABoardUI.bundle/NoData1", userLimit: false)
                     }
-               
+                    
                 } else { //flag=N;
-                    self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData.data as! NSDictionary), imageName: "BoardUI.bundle/NoNetwork", userLimit: false)
+                    self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData?.data as! NSDictionary), imageName: "OABoardUI.bundle/NoNetwork", userLimit: false)
                 }
-            
+                
             } else {  //result=nil;
-                self.showRequestFailureViewWithTitle(title: resultData.message!, imageName: "BoardUI.bundle/NoNetwork", userLimit: false)
+                self.showRequestFailureViewWithTitle(title: (resultData?.message!)!, imageName: "OABoardUI.bundle/NoNetwork", userLimit: false)
             }
         }
     }
@@ -375,7 +374,7 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let branchName = OABoardBranchInfoManager.sharedBranchInfoManager.defaultBranchDic["branchName"] as? String
         
         if (branchCode?.count == 0 || branchName?.count == 0) {
-            self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: false)
+            self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OABoardUI.bundle/NoData1", userLimit: false)
             self.tableView?.reloadData()
             self.scrollView?.mj_header.endRefreshing()
             return;
@@ -393,44 +392,43 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let deptTypePara = deptTypeParams![(tempBtn?.tag)!];
         let params = ["brancePara" : self.branchCode!, "flagPara" : "1", "deptTypePara" : deptTypePara]
         
-        RequestTool.sharedInstance.getInsuranceperformanceDataWithKey(key: key, params: params as NSDictionary) { (resultData: HttpResultModel) in
-            if resultData.result! {
-                if KgetResultFlag(data: resultData.data as! NSDictionary) {
+        OABoardHTTPManager.shared().getInsuranceperformanceData(withKey: key, params: params) { (resultData) in
+            if (resultData?.result)! {
+                if KgetResultFlag(data: resultData?.data as! NSDictionary) {
                     self.dataArr.removeAllObjects()
                     
-                    let dataDic = KgetResultParam(data: resultData.data!, key: key)
-                    let bodyArr = dataDic["body"] as! [[String: AnyObject]]
-
-                    if dataDic.allKeys.count == 0 || bodyArr.count == 0 {
-                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: true)
+                    let dataDic = KgetResultParam(data: resultData!.data! as AnyObject, key: key)
+                    let bodyArr = JSON.init(dataDic["body"] ?? NSNull()).arrayObject
+                    
+                    if dataDic.allKeys.count == 0 || bodyArr?.count == 0 {
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OABoardUI.bundle/NoData1", userLimit: true)
                         self.tableView?.reloadData()
                         self.scrollView?.mj_header.endRefreshing()
                         return
                     }
                     
                     let code: String = dataDic["code"] as! String
-                    if (code == "Y") {
-                        let modelArr = BoardModel.listToModel(list: bodyArr)
+                    if (code == "Y") {                        
+                        let modelArr = OABoardModel.listToModel(list: bodyArr as! [[String : AnyObject]])
                         self.dataArr = NSMutableArray.init(array: modelArr)
-
-                        let bodyDic = bodyArr[0]
+                        
+                        let bodyDic = JSON(bodyArr![0])
                         let unit: String = (self.childVCnum > 0) ? "单位:万元" : ""
-                        self.timeLab?.text = String(format: "数据为%@渠道 更新时间为%@", self.channelArr[self.btnTag] as! String, bodyDic["updatedDate"] as! String)
+                        self.timeLab?.text = String(format: "数据为%@渠道 更新时间为%@", self.channelArr[self.btnTag] as! String, bodyDic["updatedDate"].stringValue )
                         self.unitLab?.text = unit
-
+                        
                         self.isRequestSuccess = true
                         self.hud?.hide(animated: true)
                         self.hud = nil;
                     } else {  //code=N
-                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "BoardUI.bundle/NoData1", userLimit: true)
+                        self.showRequestFailureViewWithTitle(title: "暂无数据", imageName: "OABoardUI.bundle/NoData1", userLimit: true)
                     }
-                    
                 } else { //flag=N
                     
-                    self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData.data as! NSDictionary), imageName: "BoardUI.bundle/NoNetwork", userLimit: true)
+                    self.showRequestFailureViewWithTitle(title: KgetResultMessage(data: resultData?.data as! NSDictionary), imageName: "OABoardUI.bundle/NoNetwork", userLimit: true)
                 }
             } else { //result=nil;
-                self.showRequestFailureViewWithTitle(title: resultData.message!, imageName: "BoardUI.bundle/NoNetwork", userLimit: true)
+                self.showRequestFailureViewWithTitle(title: (resultData?.message!)!, imageName: "OABoardUI.bundle/NoNetwork", userLimit: true)
             }
             
             self.tableView?.reloadData()
@@ -530,15 +528,15 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
         headerView.addSubview(btn)
         
         let btnImageV = UIImageView(frame: CGRect(x: 15, y: 20, width: 30, height: 10))
-        btnImageV.image = UIImage.init(named: "BoardUI.bundle/pip_more")
+        btnImageV.image = UIImage.init(named: "OABoardUI.bundle/pip_more")
         btnImageV.contentMode = .scaleAspectFit;
         
         if (section == 0 && self.isOPEN_today) {
-            btnImageV.image = UIImage.init(named: "BoardUI.bundle/pip_less")
+            btnImageV.image = UIImage.init(named: "OABoardUI.bundle/pip_less")
         } else if (section == 1 && self.isOPEN_tomorary) {
-            btnImageV.image = UIImage.init(named: "BoardUI.bundle/pip_less")
+            btnImageV.image = UIImage.init(named: "OABoardUI.bundle/pip_less")
         } else if (section == 2 && self.isOPEN_total) {
-            btnImageV.image = UIImage.init(named: "BoardUI.bundle/pip_less")
+            btnImageV.image = UIImage.init(named: "OABoardUI.bundle/pip_less")
         }
         btn.addSubview(btnImageV)
         
@@ -560,9 +558,9 @@ class OABoardViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = BoardTableViewCell.cellWithTableView(tableView: tableView, styleNum: boardVCtype.pipPerformance.rawValue)
+        let cell = OABoardTableViewCell.cellWithTableView(tableView: tableView, styleNum: boardVCtype.pipPerformance.rawValue)
         if self.dataArr.count > 0 {
-            let model = self.dataArr.firstObject as! BoardModel
+            let model = self.dataArr.firstObject as! OABoardModel
             cell.refreshModel(model: model, indexPath: indexPath, btnTag: self.btnTag, isDetail: self.isDetail)
         }
         return cell

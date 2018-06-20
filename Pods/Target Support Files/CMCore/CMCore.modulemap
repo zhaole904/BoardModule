@@ -1,0 +1,6 @@
+framework module CMCore {
+  umbrella header "CMCore-umbrella.h"
+
+  export *
+  module * { export * }
+}

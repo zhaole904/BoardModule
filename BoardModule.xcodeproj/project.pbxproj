@@ -16,13 +16,15 @@
 		4629440A20D1519A0098D1F9 /* RequestTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4629440920D1519A0098D1F9 /* RequestTool.swift */; };
 		464057CF20D28E20009240FC /* OABoardBranchInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057CE20D28E20009240FC /* OABoardBranchInfoManager.swift */; };
 		464057D220D28E3C009240FC /* DefineTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D120D28E3C009240FC /* DefineTool.swift */; };
-		464057D520D29014009240FC /* BoardUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 464057D420D29014009240FC /* BoardUI.bundle */; };
-		464057D720D2A966009240FC /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D620D2A966009240FC /* BoardModel.swift */; };
-		464057D920D2A978009240FC /* BoardInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D820D2A978009240FC /* BoardInfoModel.swift */; };
-		940279A320D3BC7000578F08 /* BoardGBRankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940279A220D3BC7000578F08 /* BoardGBRankViewController.swift */; };
-		940279A520D3BC7E00578F08 /* BoardProductMixViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940279A420D3BC7E00578F08 /* BoardProductMixViewController.swift */; };
-		9442B58920D365BA006DA2A3 /* BoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9442B58820D365BA006DA2A3 /* BoardTableViewCell.swift */; };
-		9442B58B20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9442B58A20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift */; };
+		464057D520D29014009240FC /* OABoardUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 464057D420D29014009240FC /* OABoardUI.bundle */; };
+		464057D720D2A966009240FC /* OABoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D620D2A966009240FC /* OABoardModel.swift */; };
+		464057D920D2A978009240FC /* OABoardInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464057D820D2A978009240FC /* OABoardInfoModel.swift */; };
+		940279A320D3BC7000578F08 /* OABoardGBRankViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940279A220D3BC7000578F08 /* OABoardGBRankViewController.swift */; };
+		940279A520D3BC7E00578F08 /* OABoardProductMixViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940279A420D3BC7E00578F08 /* OABoardProductMixViewController.swift */; };
+		9442B58920D365BA006DA2A3 /* OABoardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9442B58820D365BA006DA2A3 /* OABoardTableViewCell.swift */; };
+		9442B58B20D3ADA2006DA2A3 /* OABoardSwitchOrganViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9442B58A20D3ADA2006DA2A3 /* OABoardSwitchOrganViewController.swift */; };
+		94B191A320D9E78A004B4A46 /* OABoardHTTPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B191A220D9E78A004B4A46 /* OABoardHTTPManager.m */; };
+		94B191A820D9ED67004B4A46 /* OABoardModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B191A620D9ED67004B4A46 /* OABoardModule.m */; };
 		A3D06DC46FE8B678E134ACDA /* Pods_BoardModule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051978ED39765F771C04BC1F /* Pods_BoardModule.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,13 +43,19 @@
 		4629440920D1519A0098D1F9 /* RequestTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestTool.swift; sourceTree = "<group>"; };
 		464057CE20D28E20009240FC /* OABoardBranchInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OABoardBranchInfoManager.swift; sourceTree = "<group>"; };
 		464057D120D28E3C009240FC /* DefineTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefineTool.swift; sourceTree = "<group>"; };
-		464057D420D29014009240FC /* BoardUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BoardUI.bundle; sourceTree = "<group>"; };
-		464057D620D2A966009240FC /* BoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardModel.swift; sourceTree = "<group>"; };
-		464057D820D2A978009240FC /* BoardInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfoModel.swift; sourceTree = "<group>"; };
-		940279A220D3BC7000578F08 /* BoardGBRankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGBRankViewController.swift; sourceTree = "<group>"; };
-		940279A420D3BC7E00578F08 /* BoardProductMixViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardProductMixViewController.swift; sourceTree = "<group>"; };
-		9442B58820D365BA006DA2A3 /* BoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTableViewCell.swift; sourceTree = "<group>"; };
-		9442B58A20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSwitchOrganViewController.swift; sourceTree = "<group>"; };
+		464057D420D29014009240FC /* OABoardUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = OABoardUI.bundle; sourceTree = "<group>"; };
+		464057D620D2A966009240FC /* OABoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OABoardModel.swift; sourceTree = "<group>"; };
+		464057D820D2A978009240FC /* OABoardInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OABoardInfoModel.swift; sourceTree = "<group>"; };
+		940279A220D3BC7000578F08 /* OABoardGBRankViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OABoardGBRankViewController.swift; sourceTree = "<group>"; };
+		940279A420D3BC7E00578F08 /* OABoardProductMixViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OABoardProductMixViewController.swift; sourceTree = "<group>"; };
+		9442B58820D365BA006DA2A3 /* OABoardTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OABoardTableViewCell.swift; sourceTree = "<group>"; };
+		9442B58A20D3ADA2006DA2A3 /* OABoardSwitchOrganViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OABoardSwitchOrganViewController.swift; sourceTree = "<group>"; };
+		94B191A020D9E789004B4A46 /* BoardModule-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BoardModule-Bridging-Header.h"; sourceTree = "<group>"; };
+		94B191A120D9E78A004B4A46 /* OABoardHTTPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OABoardHTTPManager.h; sourceTree = "<group>"; };
+		94B191A220D9E78A004B4A46 /* OABoardHTTPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OABoardHTTPManager.m; sourceTree = "<group>"; };
+		94B191A520D9ED67004B4A46 /* OABoardModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OABoardModule.h; sourceTree = "<group>"; };
+		94B191A620D9ED67004B4A46 /* OABoardModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OABoardModule.m; sourceTree = "<group>"; };
+		94B191A720D9ED67004B4A46 /* OABoardService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OABoardService.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,12 +99,15 @@
 		462943EE20D151610098D1F9 /* BoardModule */ = {
 			isa = PBXGroup;
 			children = (
+				94B191A420D9ED39004B4A46 /* Module */,
+				94B1919F20D9E741004B4A46 /* Network */,
 				9442B58720D365A6006DA2A3 /* Views */,
 				464057D320D29014009240FC /* UIResources */,
 				464057CD20D28E20009240FC /* Models */,
 				4629440820D1519A0098D1F9 /* Tools */,
 				4629440320D151970098D1F9 /* ViewControllers */,
 				462943EF20D151610098D1F9 /* AppDelegate.swift */,
+				4629440520D151970098D1F9 /* ViewController.swift */,
 				462943F320D151610098D1F9 /* Main.storyboard */,
 				462943F620D151610098D1F9 /* Assets.xcassets */,
 				462943F820D151610098D1F9 /* LaunchScreen.storyboard */,
@@ -109,10 +120,9 @@
 			isa = PBXGroup;
 			children = (
 				4629440420D151970098D1F9 /* OABoardViewController.swift */,
-				940279A220D3BC7000578F08 /* BoardGBRankViewController.swift */,
-				940279A420D3BC7E00578F08 /* BoardProductMixViewController.swift */,
-				9442B58A20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift */,
-				4629440520D151970098D1F9 /* ViewController.swift */,
+				940279A220D3BC7000578F08 /* OABoardGBRankViewController.swift */,
+				940279A420D3BC7E00578F08 /* OABoardProductMixViewController.swift */,
+				9442B58A20D3ADA2006DA2A3 /* OABoardSwitchOrganViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -129,9 +139,9 @@
 		464057CD20D28E20009240FC /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				464057D620D2A966009240FC /* OABoardModel.swift */,
+				464057D820D2A978009240FC /* OABoardInfoModel.swift */,
 				464057CE20D28E20009240FC /* OABoardBranchInfoManager.swift */,
-				464057D620D2A966009240FC /* BoardModel.swift */,
-				464057D820D2A978009240FC /* BoardInfoModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -139,7 +149,7 @@
 		464057D320D29014009240FC /* UIResources */ = {
 			isa = PBXGroup;
 			children = (
-				464057D420D29014009240FC /* BoardUI.bundle */,
+				464057D420D29014009240FC /* OABoardUI.bundle */,
 			);
 			path = UIResources;
 			sourceTree = "<group>";
@@ -147,9 +157,29 @@
 		9442B58720D365A6006DA2A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9442B58820D365BA006DA2A3 /* BoardTableViewCell.swift */,
+				9442B58820D365BA006DA2A3 /* OABoardTableViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		94B1919F20D9E741004B4A46 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				94B191A120D9E78A004B4A46 /* OABoardHTTPManager.h */,
+				94B191A220D9E78A004B4A46 /* OABoardHTTPManager.m */,
+				94B191A020D9E789004B4A46 /* BoardModule-Bridging-Header.h */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		94B191A420D9ED39004B4A46 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				94B191A520D9ED67004B4A46 /* OABoardModule.h */,
+				94B191A620D9ED67004B4A46 /* OABoardModule.m */,
+				94B191A720D9ED67004B4A46 /* OABoardService.h */,
+			);
+			path = Module;
 			sourceTree = "<group>";
 		};
 		B4137065F83128771A1BD615 /* Pods */ = {
@@ -173,6 +203,7 @@
 				462943E920D151610098D1F9 /* Frameworks */,
 				462943EA20D151610098D1F9 /* Resources */,
 				D7352FECEDB67F5BA08E2E3B /* [CP] Embed Pods Frameworks */,
+				7BF675D54D93BC5841B9C40B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -195,6 +226,7 @@
 				TargetAttributes = {
 					462943EB20D151610098D1F9 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -222,7 +254,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				464057D520D29014009240FC /* BoardUI.bundle in Resources */,
+				464057D520D29014009240FC /* OABoardUI.bundle in Resources */,
 				462943FA20D151610098D1F9 /* LaunchScreen.storyboard in Resources */,
 				462943F720D151610098D1F9 /* Assets.xcassets in Resources */,
 				462943F520D151610098D1F9 /* Main.storyboard in Resources */,
@@ -250,6 +282,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		7BF675D54D93BC5841B9C40B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BoardModule/Pods-BoardModule-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D7352FECEDB67F5BA08E2E3B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -257,20 +304,28 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BoardModule/Pods-BoardModule-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/CMCore/CMCore.framework",
+				"${PODS_ROOT}/CMKit/CMKit/Classes/CMModuleCenter.framework",
+				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/RHBaseKit/RHBaseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLCipher/SQLCipher.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CMCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CMModuleCenter.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJExtension.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RHBaseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLCipher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,17 +341,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				464057D220D28E3C009240FC /* DefineTool.swift in Sources */,
-				464057D720D2A966009240FC /* BoardModel.swift in Sources */,
+				94B191A320D9E78A004B4A46 /* OABoardHTTPManager.m in Sources */,
+				464057D720D2A966009240FC /* OABoardModel.swift in Sources */,
 				4629440A20D1519A0098D1F9 /* RequestTool.swift in Sources */,
 				462943F020D151610098D1F9 /* AppDelegate.swift in Sources */,
-				9442B58920D365BA006DA2A3 /* BoardTableViewCell.swift in Sources */,
-				464057D920D2A978009240FC /* BoardInfoModel.swift in Sources */,
+				9442B58920D365BA006DA2A3 /* OABoardTableViewCell.swift in Sources */,
+				464057D920D2A978009240FC /* OABoardInfoModel.swift in Sources */,
 				4629440720D151970098D1F9 /* ViewController.swift in Sources */,
-				940279A320D3BC7000578F08 /* BoardGBRankViewController.swift in Sources */,
-				940279A520D3BC7E00578F08 /* BoardProductMixViewController.swift in Sources */,
+				94B191A820D9ED67004B4A46 /* OABoardModule.m in Sources */,
+				940279A320D3BC7000578F08 /* OABoardGBRankViewController.swift in Sources */,
+				940279A520D3BC7E00578F08 /* OABoardProductMixViewController.swift in Sources */,
 				4629440620D151970098D1F9 /* OABoardViewController.swift in Sources */,
 				464057CF20D28E20009240FC /* OABoardBranchInfoManager.swift in Sources */,
-				9442B58B20D3ADA2006DA2A3 /* BoardSwitchOrganViewController.swift in Sources */,
+				9442B58B20D3ADA2006DA2A3 /* OABoardSwitchOrganViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,8 +491,11 @@
 			baseConfigurationReference = 35D1EFA149325E5D7555FA2B /* Pods-BoardModule.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DZY63VG7NR;
 				INFOPLIST_FILE = BoardModule/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -443,6 +503,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.le.BoardModule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "BoardModule/Network/BoardModule-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -453,8 +515,11 @@
 			baseConfigurationReference = 11C52AB52AE62377253E06E0 /* Pods-BoardModule.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DZY63VG7NR;
 				INFOPLIST_FILE = BoardModule/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -462,6 +527,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.le.BoardModule;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "BoardModule/Network/BoardModule-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

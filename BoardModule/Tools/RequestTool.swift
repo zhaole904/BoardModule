@@ -127,7 +127,7 @@ class RequestTool: NSObject {
         }
     }
     
-    func getInsuranceperformanceDataWithKey(key:String, params:NSDictionary, completion:@escaping (HttpResultModel)->()) -> Void {
+    func getInsuranceperformanceData(key:String, params:NSDictionary, completion:@escaping (HttpResultModel)->()) -> Void {
         
         self.POST(url: self.getcCompleteUrl(url: "/RH_MAS/bus/v1.0/stmmp/report/\(key)"), params: params as! [String : Any]) { (backResult) in
             completion(backResult)
